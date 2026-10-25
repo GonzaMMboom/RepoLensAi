@@ -1,22 +1,22 @@
-name: repolens-ai
-
 services:
-  api:
-    build:
-      context: ./services/api
-    env_file:
-      - path: .env
-        required: false
+  db:
+    image: pgvector/pgvector:pg17
+    container_name: repolens-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: repolens
+      POSTGRES_USER: repolens
+      POSTGRES_PASSWORD: local_dev_only_change_me
     ports:
-      - "${API_PORT:-8000}:8000"
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./services/db/init/01-enable-pgvector.sql:/docker-entrypoint-initdb.d/01-enable-pgvector.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U repolens -d repolens"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  web:
-    build:
-      context: ./apps/web
-    env_file:
-      - path: .env
-        required: false
-    ports:
-      - "${WEB_PORT:-3000}:3000"
-    depends_on:
-      - api
+volumes:
+  postgres_data:
