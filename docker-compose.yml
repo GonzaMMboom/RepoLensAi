@@ -1,0 +1,22 @@
+name: repolens-ai
+
+services:
+  api:
+    build:
+      context: ./services/api
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "${API_PORT:-8000}:8000"
+
+  web:
+    build:
+      context: ./apps/web
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      - api
