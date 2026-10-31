@@ -1,5 +1,9 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
 from database import check_db_connection
+
+
 
 app = FastAPI(
     title="RepoLens AI API",
@@ -8,7 +12,20 @@ app = FastAPI(
 
 )
 
-@app.get("/")
+# permite que el frontend acceda a la API
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://192.168.0.20:3000",
+    ],
+    allow_credentials=False,
+    allow_methods=["*"],  # Permitir todos los métodos HTTP
+    allow_headers=["*"],  # Permitir todos los encabezados
+)
+
+@app.get("/health")
 def health_check():
     return {"status":"OK"}
 
