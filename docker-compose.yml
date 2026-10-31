@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: repolens
       POSTGRES_PASSWORD: local_dev_only_change_me
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./services/db/init/01-enable-pgvector.sql:/docker-entrypoint-initdb.d/01-enable-pgvector.sql:ro
