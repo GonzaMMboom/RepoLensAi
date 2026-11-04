@@ -34,3 +34,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Test persistence
+test_persistence.py
+test/test_persistence.py
