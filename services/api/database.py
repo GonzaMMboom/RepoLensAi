@@ -5,6 +5,7 @@ import os  #esto sirve para acceder a las variables de entorno
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 
+from sqlalchemy.orm import Session #Session para interactuar con la base de datos (select, insert, update, delete) ORM es un concepto que permite mapear objetos a la base de datos
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -17,3 +18,9 @@ def check_db_connection() -> None:
     """Comprueba que se puede ejecutar una consulta en PostgreSQL."""
     with engine.connect() as connection:
         connection.execute(text("SELECT 1"))
+
+
+def get_db():
+    """Genera una sesión de base de datos."""
+    with Session(engine) as session:
+        yield session  #yield es un generador que devuelve la sesión de la base de datos, permite que un endpoint pueda usar la sesión de la base de datos

@@ -2,8 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from database import check_db_connection
-
-
+from routers.analyses import router as analyses_router
 
 app = FastAPI(
     title="RepoLens AI API",
@@ -24,6 +23,8 @@ app.add_middleware(
     allow_methods=["*"],  # Permitir todos los métodos HTTP
     allow_headers=["*"],  # Permitir todos los encabezados
 )
+
+app.include_router(analyses_router)
 
 @app.get("/health")
 def health_check():
