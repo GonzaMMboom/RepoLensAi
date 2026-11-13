@@ -27,6 +27,10 @@ htmlcov/
 # Logs
 *.log
 
+# Uploaded analysis documents (keep directory structure)
+services/api/storage/uploads/*
+!services/api/storage/uploads/.gitkeep
+
 # Operating system
 .DS_Store
 Thumbs.db
